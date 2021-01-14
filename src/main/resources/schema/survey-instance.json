@@ -1,0 +1,49 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "Instance or execution of a survey.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique response id (PK)."
+		},
+		"surveytemplateid": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique survey template id (FK)."
+		},
+		"projectid": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique project id (FK)."
+		},
+		"startTimestamp": {
+			"type": "string",
+			"format": "date-time",
+			"description": "Starting time of the survey."
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the survey instance."
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the survey."
+		},
+		"surveyresponses": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "survey-response.json"
+			},
+			"description": "Responses to this assessment."
+		}
+	},
+	"required": [
+		"id",
+		"surveytemplateid",
+		"name",
+		"projectid"
+	]
+}

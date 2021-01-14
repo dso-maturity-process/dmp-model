@@ -1,0 +1,44 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "Role domain object.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique role id."
+		},
+		"role-type": {
+			"type": "string",
+			"description": "Type of role.",
+			"enum": [
+				"Project manager",
+				"Developer",
+				"Security analyst",
+				"Technical lead",
+				null
+			]
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the role."
+		},
+		"description": {
+			"type": "string",
+			"description": "Long description of the role."
+		},
+		"users": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "user.json"
+			},
+			"description": "List of users that have this role."
+		}
+	},
+	"required": [
+		"id",
+		"role-type",
+		"name"
+	]
+}

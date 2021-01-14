@@ -1,0 +1,40 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "Project domain object.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique project id. (PK)"
+		},
+		"name": {
+			"type": "string",
+			"description": "Name of the project."
+		},
+		"description": {
+			"type": "string",
+			"description": "Description of the survey."
+		},
+		"members": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "user.json"
+			},
+			"description": "Users that are project members."
+		},
+		"surveyinstances": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "survey-instance.json"
+			},
+			"description": "Instances of survey assessments."
+		}
+	},
+	"required": [
+		"id",
+		"name"
+	]
+}

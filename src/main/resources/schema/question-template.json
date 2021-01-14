@@ -1,0 +1,28 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "Question domain object.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique role id."
+		},
+		"text": {
+			"type": "string",
+			"description": "Displayed content."
+		},
+		"survey-templates": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "survey-template.json"
+			},
+			"description": "Set of survey templates that use this question."
+	  }
+	},
+	"required": [
+		"id",
+		"text"
+	]
+}

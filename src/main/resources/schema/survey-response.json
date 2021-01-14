@@ -1,0 +1,35 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "Represents a question/answer pair.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique project id (PK)."
+		},
+		"surveyinstanceid": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Survey instance id (FK)."
+		},
+		"sequence": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Sequence in the survey."
+		},
+		"question": {
+			"type": "string",
+			"description": "Question content."
+		},
+		"answer": {
+			"type": "string",
+			"description": "Answer to the question."
+		}
+	},
+	"required": [
+		"id",
+		"name",
+		"question"
+	]
+}

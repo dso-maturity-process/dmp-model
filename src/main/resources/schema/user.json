@@ -1,0 +1,48 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"description": "User domain object.",
+	"type": "object",
+	"properties": {
+		"id": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Unique user id. (PK)"
+		},
+		"first-name": {
+			"type": "string",
+			"description": "First name."
+		},
+		"last-name": {
+			"type": "string",
+			"description": "Last name."
+		},
+		"user-name": {
+			"type": "string",
+			"description": "Normally an e-mail address for uniqueness"
+		},
+		"password": {
+			"type": "string",
+			"description": "Password for this user."
+		},
+		"createdTimestamp": {
+			"type": "string",
+			"format": "date-time",
+			"description": "Creation timestamp."
+		},
+		"roles": {
+			"type": "array",
+			"uniqueItems": "true",
+			"items": {
+				"$ref": "role.json"
+			},
+			"description": "List of roles for this user."
+		}
+	},
+	"required": [
+		"id",
+		"first-name",
+		"last-name",
+		"user-name",
+		"password"
+	]
+}

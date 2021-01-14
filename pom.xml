@@ -1,0 +1,507 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.governmentcio.dmp.model</groupId>
+	<artifactId>domain-model</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>DMP Domain Model</name>
+	<description>Domain model for the DMP.</description>
+	<url>http://www.governmentcio.com</url>
+
+	<properties>
+
+		<!-- Dependency versions -->
+		<junit.version>4.12</junit.version>
+		<slf4j.version>1.6.1</slf4j.version>
+		<selenium.version>2.53.1</selenium.version>
+
+		<!-- Source encoding -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- URL of Gitlab instance -->
+		<gitlab-address>www.gitlab.devgovcio.com/wdrew</gitlab-address>
+
+		<!-- URL of CI server -->
+		<jenkins-address>jenkins.devgovcio.com</jenkins-address>
+
+		<!-- Checkstyle standards location -->
+		<checkstyle.config.location>resources/customized-sun-checks.xml</checkstyle.config.location>
+
+		<!-- Jersey -->
+		<version.jersey>2.15</version.jersey>
+
+		<!-- use 3.0.1 for Tomcat 7 or Java EE 6 (i.e. Glassfish 3.x) -->
+		<version.servlet.api>3.1.0</version.servlet.api>
+
+		<!-- JPA -->
+		<jee.version>7.0</jee.version>
+		<h2.version>1.3.176</h2.version>
+		<hibernate.version>4.3.8.Final</hibernate.version>
+
+	</properties>
+
+	<!-- Profiles -->
+
+	<profiles>
+
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<name>Windows XP</name>
+					<family>Windows</family>
+					<arch>x86</arch>
+					<version>5.1.2600</version>
+				</os>
+			</activation>
+			<properties>
+				<custom-smx-type>zip</custom-smx-type>
+				<script-extension>.bat</script-extension>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>win64</id>
+			<activation>
+				<os>
+					<family>windows</family>
+					<name>Windows 7</name>
+					<arch>x86</arch>
+				</os>
+			</activation>
+			<properties>
+				<custom-smx-type>zip</custom-smx-type>
+				<script-extension>.bat</script-extension>
+			</properties>
+		</profile>
+
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<custom-smx-type>tar.gz</custom-smx-type>
+				<script-extension />
+			</properties>
+		</profile>
+
+		<profile>
+			<id>sonar</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<sonar.host.url>http://${sonar-address}:9000</sonar.host.url>
+				<sonar.jdbc.url>jdbc:mysql://${mysql-address}:3306/sonar?useUnicode=true&amp;characterEncoding=utf8</sonar.jdbc.url>
+				<sonar.jdbc.username>sonar</sonar.jdbc.username>
+				<sonar.jdbc.password>sonar</sonar.jdbc.password>
+				<sonar.language>java</sonar.language>
+				<sonar.jdbc.driver>com.mysql.jdbc.Driver</sonar.jdbc.driver>
+			</properties>
+		</profile>
+
+	</profiles>
+
+	<!-- Development team -->
+
+	<developers>
+
+		<developer>
+			<id>gregbru</id>
+			<name>Greg Bruening</name>
+			<email>greg@lookthink.com</email>
+			<roles>
+				<role>Software Engineer</role>
+			</roles>
+			<organization>LookThink</organization>
+			<timezone>-5</timezone>
+		</developer>
+
+		<developer>
+			<id>wdrew</id>
+			<name>William Drew</name>
+			<email>wdrew@governmentcio.com</email>
+			<roles>
+				<role>Software Engineer</role>
+			</roles>
+			<organization>Government CIO</organization>
+			<timezone>-5</timezone>
+		</developer>
+
+		<developer>
+			<id>fosinowo</id>
+			<name>Femi Osinowo</name>
+			<email>fosinowo@governmentcio.com</email>
+			<roles>
+				<role>Software Engineer</role>
+			</roles>
+			<organization>Government CIO</organization>
+			<timezone>-5</timezone>
+		</developer>
+
+		<developer>
+			<id>jpodsiadlo</id>
+			<name>Jaroslaw Podsiadlo</name>
+			<email>jpodsiadlo@governmentcio.com</email>
+			<roles>
+				<role>Software Engineer</role>
+			</roles>
+			<organization>Government CIO</organization>
+			<timezone>-5</timezone>
+		</developer>
+
+		<developer>
+			<id>jarek</id>
+			<name>Aaron Wendt</name>
+			<email>aaron.w@lookthink.com</email>
+			<roles>
+				<role>Software Engineer</role>
+			</roles>
+			<organization>LookThink</organization>
+			<timezone>-5</timezone>
+		</developer>
+
+	</developers>
+
+	<!-- Mailing lists -->
+
+	<mailingLists>
+
+		<mailingList>
+			<name>DMP project mailing list</name>
+			<subscribe>dev-subscribe@governmentcio.com</subscribe>
+			<unsubscribe>dev-unsubscribe@governmentcio.com</unsubscribe>
+			<post>support@governmentcio.com</post>
+			<archive>http://mail-archives.governmentcio.com/modmbox/dev/</archive>
+		</mailingList>
+
+	</mailingLists>
+
+	<!-- SCM connection -->
+
+	<scm>
+		<connection>scm:git:http://${gitlab-address}/flash-domain-model.git</connection>
+	</scm>
+
+	<!-- Distribution management -->
+
+	<distributionManagement>
+
+		<snapshotRepository>
+			<id>dmp-domain-model-snapshot-local</id>
+			<name>Local repository for DMP snapshot artifacts</name>
+			<url>http://${artifact-repo-address-port}/artifactory/dmp-domain-model-snapshot-local 
+		</url>
+		</snapshotRepository>
+
+		<repository>
+			<id>dmp-domain-model-release-local</id>
+			<name>Local repository for DMP release artifacts</name>
+			<url>http://${artifact-repo-address-port}/artifactory/dmp-domain-model-release-local 
+		</url>
+		</repository>
+
+		<site>
+			<id>site01</id>
+			<url>scp://projects.devgovcio.com/var/www/html/dmp-domain-model-${project.version}</url>
+		</site>
+
+	</distributionManagement>
+
+	<!-- Build -->
+
+	<build>
+
+		<defaultGoal>install</defaultGoal>
+
+		<!-- <resources> -->
+		<!-- <resource> -->
+		<!-- <directory>${basedir}/generated/src/main/java</directory> -->
+		<!-- </resource> -->
+		<!-- </resources> -->
+
+		<pluginManagement>
+
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-eclipse-plugin</artifactId>
+					<version>2.10</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.9.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-project-info-reports-plugin</artifactId>
+					<version>2.8.1</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.3</version>
+					<configuration>
+						<source>1.8</source>
+						<target>1.8</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jxr-plugin</artifactId>
+					<version>2.3</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.9.1</version>
+					<executions>
+						<execution>
+							<id>checkstyle</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+							<configuration>
+								<encoding>UTF-8</encoding>
+								<consoleOutput>true</consoleOutput>
+								<failsOnError>true</failsOnError>
+								<failOnViolation>true</failOnViolation>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.10</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.2</version>
+					<configuration>
+						<preparationGoals>clean verify install</preparationGoals>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.15</version>
+					<configuration>
+						<systemPropertyVariables>
+							<propertyName>SELENIUM_GRID_URL</propertyName>
+							<buildDirectory>${selenium.grid.url}</buildDirectory>
+						</systemPropertyVariables>
+					</configuration>
+				</plugin>
+
+				<!-- War creation -->
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+
+				<!-- Site creation -->
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-site-plugin</artifactId>
+					<version>3.5.1</version>
+					<configuration>
+						<port>80</port>
+					</configuration>
+					<dependencies>
+						<dependency><!-- add support for ssh/scp -->
+							<groupId>org.apache.maven.wagon</groupId>
+							<artifactId>wagon-ssh</artifactId>
+							<version>1.0</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+			</plugins>
+
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${basedir}/generated/src/main/java</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jsonschema2pojo</groupId>
+				<artifactId>jsonschema2pojo-maven-plugin</artifactId>
+				<version>1.0.2</version>
+				<configuration>
+					<sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
+					<targetPackage>com.governmentcio.dmp.model</targetPackage>
+					<outputDirectory>${basedir}/generated/src/main/java</outputDirectory>
+					<removeOldOutput>true</removeOldOutput>
+					<includeAdditionalProperties>false</includeAdditionalProperties>
+					<includeConstructors>true</includeConstructors>
+					<constructorsRequiredPropertiesOnly>true</constructorsRequiredPropertiesOnly>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<!-- Reporting -->
+
+	<reporting>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>findbugs-maven-plugin</artifactId>
+				<version>3.0.2</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.16</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.8.1</version>
+			</plugin>
+
+		</plugins>
+
+	</reporting>
+
+	<!-- Dependency management -->
+
+	<dependencyManagement>
+
+		<dependencies>
+
+			<!-- Jersey -->
+
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jackson</artifactId>
+				<version>${version.jersey}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>commons-lang</groupId>
+				<artifactId>commons-lang</artifactId>
+				<version>2.4</version>
+			</dependency>
+
+			<!-- JPA -->
+
+			<dependency>
+				<groupId>javax</groupId>
+				<artifactId>javaee-api</artifactId>
+				<version>${jee.version}</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.h2database</groupId>
+				<artifactId>h2</artifactId>
+				<version>${h2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>xml-apis</groupId>
+				<artifactId>xml-apis</artifactId>
+				<version>1.4.01</version>
+			</dependency>
+
+
+		</dependencies>
+
+	</dependencyManagement>
+
+	<dependencies>
+
+		<!-- Jersey -->
+
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-jackson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<!-- JPA -->
+
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+		</dependency>
+
+	</dependencies>
+
+</project>
