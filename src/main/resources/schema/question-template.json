@@ -12,6 +12,11 @@
 			"type": "string",
 			"description": "Displayed content."
 		},
+		"sequence": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Sequence of question in survey."
+		},
 		"survey-templates": {
 			"type": "array",
 			"uniqueItems": "true",
@@ -19,7 +24,7 @@
 				"$ref": "survey-template.json"
 			},
 			"description": "Set of survey templates that use this question."
-	  }
+		}
 	},
 	"required": [
 		"id",
