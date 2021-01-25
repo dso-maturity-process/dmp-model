@@ -8,11 +8,6 @@
 			"format": "utc-millisec",
 			"description": "Unique project id (PK)."
 		},
-		"surveyinstanceid": {
-			"type": "string",
-			"format": "utc-millisec",
-			"description": "Survey instance id (FK)."
-		},
 		"sequence": {
 			"type": "string",
 			"format": "utc-millisec",
