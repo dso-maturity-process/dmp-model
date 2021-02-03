@@ -18,6 +18,16 @@
 			"format": "utc-millisec",
 			"description": "Unique project id (FK)."
 		},
+		"userid": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Id of user taking the assessment."
+		},
+		"roleid": {
+			"type": "string",
+			"format": "utc-millisec",
+			"description": "Role id of user taking the assessment."
+		},
 		"startTimestamp": {
 			"type": "string",
 			"format": "date-time",
@@ -44,6 +54,8 @@
 		"id",
 		"surveytemplateid",
 		"name",
-		"projectid"
+		"projectid",
+		"userid",
+		"roleid"
 	]
 }
